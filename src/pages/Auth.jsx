@@ -1,7 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../store/auth-context";
 
 const Auth = () => {
+  const nevigate = useNavigate();
+  const authCtx = useContext(AuthContext);
   const emailinputRef = useRef();
   const passwordInputRef = useRef();
   const confirmPasswordInputRef = useRef();
@@ -54,7 +58,8 @@ const Auth = () => {
         }
       })
       .then((data) => {
-        console.log("Login successful");
+        authCtx.login(data.idToken);
+        nevigate("/mail");
       })
       .catch((error) => {
         alert(error.message);
